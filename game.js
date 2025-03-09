@@ -41,6 +41,16 @@ class TypingGame {
             'through', 'thought', 'should', 'around', 'every', 'again', 'under', 'after', 'many', 'first'
         ];
         
+        // Set initial data-mode attribute
+        document.body.setAttribute('data-mode', this.isEasyMode ? 'easy' : 'hard');
+        
+        // Make sure display has the right class for easy mode
+        if (this.isEasyMode) {
+            this.display.classList.add('start-message');
+            this.scoreDisplay.style.display = 'none';
+            this.highScoreDisplay.style.display = 'none';
+        }
+        
         this.setupEventListeners();
         this.preloadAudio();
     }
@@ -168,6 +178,9 @@ class TypingGame {
         this.easyModeBtn.classList.toggle('active', this.isEasyMode);
         this.hardModeBtn.classList.toggle('active', !this.isEasyMode);
         
+        // Set the data-mode attribute on the body element
+        document.body.setAttribute('data-mode', this.isEasyMode ? 'easy' : 'hard');
+        
         if (this.isEasyMode) {
             this.display.textContent = 'Press any key to start!';
             this.display.classList.add('start-message');
@@ -192,6 +205,39 @@ class TypingGame {
             source.connect(this.audioContext.destination);
             source.start();
         }
+    }
+
+    setDifficulty(difficulty) {
+        this.difficulty = difficulty;
+        this.resetGame();
+
+        document.body.setAttribute('data-mode', difficulty);
+        
+        // Update UI for easy mode - make letters larger
+        // if (difficulty === 'easy') {
+        //     document.querySelectorAll('.letter-circle').forEach(circle => {
+        //         circle.classList.add('easy-mode-letter');
+        //     });
+        // } else {
+        //     document.querySelectorAll('.letter-circle').forEach(circle => {
+        //         circle.classList.remove('easy-mode-letter');
+        //     });
+        // }
+    }
+
+    createLetterCircle(letter) {
+        const circle = document.createElement('div');
+        circle.className = 'letter-circle';
+        if (this.difficulty === 'easy') {
+            circle.classList.add('easy-mode-letter');
+        }
+        
+        const letterElement = document.createElement('span');
+        letterElement.className = 'letter';
+        letterElement.textContent = letter;
+        
+        circle.appendChild(letterElement);
+        return circle;
     }
 }
 

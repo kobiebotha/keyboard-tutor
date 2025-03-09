@@ -52,6 +52,11 @@ body {
     transition: transform 0.2s ease;
 }
 
+/* Make letters larger in easy mode */
+body[data-mode="easy"] .display {
+    font-size: 20rem; /* Increased from 15rem */
+}
+
 .display.pressed {
     transform: scale(0.95);
 }
@@ -60,8 +65,8 @@ body {
     font-size: 1.2rem;
 }
 
-/* Hard mode styles */
-.display:not(.start-message) {
+/* Hard mode styles - these should only apply in hard mode */
+body[data-mode="hard"] .display:not(.start-message) {
     font-size: 4rem;
     height: auto;
     width: auto;
@@ -90,3 +95,4 @@ body {
     color: #333;
     display: none;
 }
+
